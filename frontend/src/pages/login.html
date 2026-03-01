@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In — Waslaa Telecom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --purple-600: #7C3AED;
+      --purple-700: #6D28D9;
+      --purple-800: #5B21B6;
+      --purple-50:  #F5F3FF;
+      --purple-100: #EDE9FE;
+      --purple-200: #DDD6FE;
+      --purple-300: #C4B5FD;
+      --indigo-950: #1E1B4B;
+      --white:      #FFFFFF;
+      --muted:      #6B7280;
+      --error:      #EF4444;
+      --success:    #10B981;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: var(--white);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* ── LEFT PANEL ── */
+    .left-panel {
+      background: var(--indigo-950);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem;
+    }
+
+    .left-panel::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: -200px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,0.3) 0%, transparent 70%);
+    }
+
+    .left-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -150px; right: -150px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, transparent 70%);
+    }
+
+    .left-logo {
+      position: relative; z-index: 1;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 600;
+      color: var(--white); text-decoration: none;
+    }
+
+    .left-logo span { color: var(--purple-300); }
+
+    .left-content {
+      position: relative; z-index: 1;
+    }
+
+    .left-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: 1.5rem;
+    }
+
+    .left-quote em { font-style: italic; color: var(--purple-300); }
+
+    .left-desc {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.8;
+      max-width: 340px;
+    }
+
+    /* Decorative circles */
+    .deco-circles {
+      position: absolute;
+      right: 3rem; top: 50%;
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+
+    .deco-circle {
+      border-radius: 50%;
+      border: 1px solid rgba(196,181,253,0.15);
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .left-stats {
+      position: relative; z-index: 1;
+      display: flex; gap: 2rem;
+    }
+
+    .left-stat {
+      display: flex; flex-direction: column; gap: 0.3rem;
+    }
+
+    .left-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300;
+      color: var(--white); line-height: 1;
+    }
+
+    .left-stat-num em { color: var(--purple-300); font-style: normal; }
+
+    .left-stat-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+      background: var(--white);
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 420px;
+      animation: fade-up 0.6s ease forwards;
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-header { margin-bottom: 2.5rem; }
+
+    .form-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple-600);
+      font-weight: 500;
+      margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    .form-eyebrow::before {
+      content: ''; width: 20px; height: 1px; background: var(--purple-600);
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem; font-weight: 300;
+      color: var(--indigo-950); line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-subtitle {
+      font-size: 0.85rem; color: var(--muted); line-height: 1.6;
+    }
+
+    /* ── FORM ── */
+    .form-group { margin-bottom: 1.2rem; }
+
+    .form-label {
+      display: block;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--indigo-950);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .input-wrapper { position: relative; }
+
+    .form-input {
+      width: 100%;
+      padding: 0.85rem 1rem 0.85rem 2.8rem;
+      border: 1.5px solid var(--purple-200);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--indigo-950);
+      background: var(--white);
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .form-input::placeholder { color: #9CA3AF; }
+
+    .form-input:focus {
+      border-color: var(--purple-600);
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+    }
+
+    .form-input.error { border-color: var(--error); }
+    .form-input.error:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
+
+    .input-icon {
+      position: absolute;
+      left: 0.9rem; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 0.9rem;
+      pointer-events: none;
+      transition: color 0.3s;
+    }
+
+    .form-input:focus + .input-icon { display: none; }
+    .input-wrapper:focus-within .input-icon { color: var(--purple-600); }
+
+    .toggle-password {
+      position: absolute;
+      right: 0.9rem; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      cursor: pointer; color: var(--muted);
+      font-size: 0.85rem;
+      transition: color 0.3s;
+      padding: 0;
+    }
+
+    .toggle-password:hover { color: var(--purple-600); }
+
+    .field-error {
+      font-size: 0.75rem;
+      color: var(--error);
+      margin-top: 0.4rem;
+      display: none;
+    }
+
+    .field-error.show { display: block; }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .remember-label {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.82rem; color: var(--muted); cursor: pointer;
+    }
+
+    .remember-label input[type="checkbox"] {
+      width: 15px; height: 15px;
+      accent-color: var(--purple-600);
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      font-size: 0.82rem;
+      color: var(--purple-600);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .forgot-link:hover { color: var(--purple-800); }
+
+    /* ── ALERT ── */
+    .alert {
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      font-size: 0.83rem;
+      margin-bottom: 1.2rem;
+      display: none;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .alert.show { display: flex; }
+
+    .alert-error {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #DC2626;
+    }
+
+    .alert-success {
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      color: #065F46;
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .btn-submit {
+      width: 100%;
+      padding: 0.95rem;
+      background: var(--purple-600);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.3);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-submit:hover {
+      background: var(--purple-800);
+      box-shadow: 0 6px 20px rgba(124,58,237,0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active { transform: translateY(0); }
+
+    .btn-submit.loading { pointer-events: none; opacity: 0.8; }
+
+    .btn-submit .btn-text { transition: opacity 0.3s; }
+    .btn-submit .btn-spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .btn-submit.loading .btn-text { opacity: 0; }
+    .btn-submit.loading .btn-spinner { display: block; }
+
+    @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .form-footer {
+      text-align: center;
+      font-size: 0.83rem;
+      color: var(--muted);
+    }
+
+    .form-footer a {
+      color: var(--purple-600);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .form-footer a:hover { color: var(--purple-800); }
+
+    /* Divider */
+    .divider {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.75rem; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--purple-100);
+    }
+
+    @media (max-width: 768px) {
+      body { grid-template-columns: 1fr; }
+      .left-panel { display: none; }
+      .right-panel { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LEFT -->
+  <div class="left-panel">
+    <a href="../index.html" class="left-logo">Waslaa<span>.</span></a>
+
+    <div class="left-content">
+      <h2 class="left-quote">
+        Welcome back to<br/>
+        <em>Premium</em><br/>
+        Connectivity
+      </h2>
+      <p class="left-desc">
+        Sign in to manage your plans, track your usage, view billing history, and stay connected with Waslaa Telecom.
+      </p>
+    </div>
+
+    <div class="left-stats">
+      <div class="left-stat">
+        <div class="left-stat-num">500<em>K+</em></div>
+        <div class="left-stat-label">Subscribers</div>
+      </div>
+      <div class="left-stat">
+        <div class="left-stat-num">99<em>.9%</em></div>
+        <div class="left-stat-label">Uptime</div>
+      </div>
+      <div class="left-stat">
+        <div class="left-stat-num">24<em>/7</em></div>
+        <div class="left-stat-label">Support</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right-panel">
+    <div class="form-container">
+      <div class="form-header">
+        <div class="form-eyebrow">Customer Portal</div>
+        <h1 class="form-title">Sign In</h1>
+        <p class="form-subtitle">Enter your credentials to access your account.</p>
+      </div>
+
+      <!-- Alert -->
+      <div class="alert alert-error" id="alertError">
+        <span>⚠️</span>
+        <span id="alertErrorMsg">Invalid email or password.</span>
+      </div>
+      <div class="alert alert-success" id="alertSuccess">
+        <span>✅</span>
+        <span>Login successful! Redirecting...</span>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <!-- Email -->
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <div class="input-wrapper">
+            <input type="email" id="email" class="form-input" placeholder="you@example.com" autocomplete="email"/>
+            <span class="input-icon">✉️</span>
+          </div>
+          <div class="field-error" id="emailError">Please enter a valid email address.</div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" class="form-input" placeholder="••••••••" autocomplete="current-password" style="padding-right:2.8rem"/>
+            <span class="input-icon">🔒</span>
+            <button type="button" class="toggle-password" onclick="togglePassword('password', this)">👁</button>
+          </div>
+          <div class="field-error" id="passwordError">Password is required.</div>
+        </div>
+
+        <!-- Remember / Forgot -->
+        <div class="form-row">
+          <label class="remember-label">
+            <input type="checkbox" id="remember"/> Remember me
+          </label>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span class="btn-text">Sign In</span>
+          <span class="btn-spinner"></span>
+        </button>
+
+        <div class="divider">or</div>
+
+        <div class="form-footer">
+          Don't have an account? <a href="register.html">Create one now</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API = 'http://localhost:8000/api';
+
+    function togglePassword(id, btn) {
+      const input = document.getElementById(id);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁';
+      }
+    }
+
+    function showError(inputId, errorId) {
+      document.getElementById(inputId).classList.add('error');
+      document.getElementById(errorId).classList.add('show');
+    }
+
+    function clearErrors() {
+      document.querySelectorAll('.form-input').forEach(i => i.classList.remove('error'));
+      document.querySelectorAll('.field-error').forEach(e => e.classList.remove('show'));
+      document.getElementById('alertError').classList.remove('show');
+      document.getElementById('alertSuccess').classList.remove('show');
+    }
+
+    function validate() {
+      let valid = true;
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError('email', 'emailError');
+        valid = false;
+      }
+      if (!password) {
+        showError('password', 'passwordError');
+        valid = false;
+      }
+      return valid;
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      if (!validate()) return;
+
+      const btn = document.getElementById('submitBtn');
+      btn.classList.add('loading');
+
+      try {
+        const res = await fetch(`${API}/users/login/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            email: document.getElementById('email').value.trim(),
+            password: document.getElementById('password').value,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          // Store user info
+          localStorage.setItem('waslaa_user', JSON.stringify(data));
+          document.getElementById('alertSuccess').classList.add('show');
+
+          // Redirect based on role
+          setTimeout(() => {
+            if (data.role === 'admin') {
+              window.location.href = 'admin-dashboard.html';
+            } else {
+              window.location.href = 'dashboard.html';
+            }
+          }, 1000);
+        } else {
+          const msg = data.non_field_errors?.[0] || data.detail || 'Invalid email or password.';
+          document.getElementById('alertErrorMsg').textContent = msg;
+          document.getElementById('alertError').classList.add('show');
+        }
+      } catch (err) {
+        document.getElementById('alertErrorMsg').textContent = 'Connection error. Please try again.';
+        document.getElementById('alertError').classList.add('show');
+      } finally {
+        btn.classList.remove('loading');
+      }
+    });
+
+    // Live validation
+    document.getElementById('email').addEventListener('blur', function () {
+      if (!this.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value)) {
+        showError('email', 'emailError');
+      }
+    });
+  </script>
+</body>
+</html>

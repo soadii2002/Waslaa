@@ -1,0 +1,926 @@
+docker-compose down
+
+l lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Waslaa Telecom — Stay Connected in Style</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --purple-600:  #7C3AED;
+      --purple-700:  #6D28D9;
+      --purple-800:  #5B21B6;
+      --purple-900:  #4C1D95;
+      --purple-50:   #F5F3FF;
+      --purple-100:  #EDE9FE;
+      --purple-200:  #DDD6FE;
+      --purple-300:  #C4B5FD;
+      --indigo-950:  #1E1B4B;
+      --white:       #FFFFFF;
+      --off-white:   #FAFAFA;
+      --muted:       #6B7280;
+      --glass-border:rgba(124,58,237,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--indigo-950);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      padding: 1.25rem 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--purple-100);
+      transition: box-shadow 0.4s ease;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--indigo-950);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-logo span { color: var(--purple-600); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      font-weight: 400;
+    }
+
+    .nav-links a:hover { color: var(--purple-600); }
+
+    .btn-nav {
+      background: var(--purple-600) !important;
+      color: var(--white) !important;
+      padding: 0.6rem 1.6rem;
+      border-radius: 4px;
+      transition: background 0.3s ease !important;
+    }
+
+    .btn-nav:hover { background: var(--purple-800) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+      padding: 10rem 5rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 70% at 100% 50%, var(--purple-50) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 0% 100%, var(--purple-100) 0%, transparent 60%);
+      z-index: 0;
+    }
+
+    .hero-arc {
+      position: absolute;
+      right: -100px; top: 50%;
+      transform: translateY(-50%);
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      border: 1.5px solid var(--purple-200);
+      z-index: 0;
+      animation: slow-spin 40s linear infinite;
+    }
+
+    .hero-arc::before {
+      content: '';
+      position: absolute;
+      inset: 50px;
+      border-radius: 50%;
+      border: 1px solid var(--purple-100);
+    }
+
+    @keyframes slow-spin {
+      from { transform: translateY(-50%) rotate(0deg); }
+      to   { transform: translateY(-50%) rotate(360deg); }
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple-600);
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fade-up 0.8s ease 0.2s forwards;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 28px; height: 1px;
+      background: var(--purple-600);
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--indigo-950);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fade-up 0.8s ease 0.4s forwards;
+    }
+
+    .hero-title em { font-style: italic; color: var(--purple-600); }
+    .hero-title strong { font-weight: 600; display: block; }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 460px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fade-up 0.8s ease 0.6s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      opacity: 0;
+      animation: fade-up 0.8s ease 0.8s forwards;
+    }
+
+    .btn-primary {
+      background: var(--purple-600);
+      color: var(--white);
+      padding: 0.9rem 2.2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      border: 2px solid var(--purple-600);
+      box-shadow: 0 8px 24px rgba(124,58,237,0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--purple-800);
+      border-color: var(--purple-800);
+      box-shadow: 0 12px 32px rgba(124,58,237,0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--indigo-950);
+      padding: 0.9rem 2.2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      border: 1.5px solid var(--purple-200);
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover { border-color: var(--purple-600); color: var(--purple-600); }
+
+    /* ── HERO VISUAL ── */
+    .hero-visual {
+      position: relative; z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      animation: fade-left 0.9s ease 0.5s forwards;
+    }
+
+    .plan-card-stack {
+      position: relative;
+      width: 340px; height: 420px;
+    }
+
+    .plan-card {
+      position: absolute;
+      width: 300px;
+      background: var(--white);
+      border: 1px solid var(--purple-100);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(91,33,182,0.1);
+      transition: transform 0.4s ease;
+    }
+
+    .plan-card:nth-child(1) { top:0; left:40px; transform:rotate(-4deg); z-index:1; background:var(--purple-50); }
+    .plan-card:nth-child(2) { top:30px; left:20px; transform:rotate(-1deg); z-index:2; }
+    .plan-card:nth-child(3) { top:60px; left:0; z-index:3; box-shadow:0 30px 80px rgba(91,33,182,0.18); }
+
+    .plan-card-stack:hover .plan-card:nth-child(1) { transform: rotate(-8deg) translateY(-10px); }
+    .plan-card-stack:hover .plan-card:nth-child(2) { transform: rotate(-3deg) translateY(-5px); }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--purple-100);
+      color: var(--purple-700);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      margin-bottom: 1.2rem;
+    }
+
+    .card-badge-dot { width:6px; height:6px; border-radius:50%; background:var(--purple-600); }
+
+    .card-plan-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600;
+      color: var(--indigo-950); margin-bottom: 0.3rem;
+    }
+
+    .card-plan-type { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.2rem; }
+
+    .card-price {
+      font-size: 2.2rem; font-weight: 300;
+      color: var(--purple-600); margin-bottom: 1.2rem;
+    }
+
+    .card-price sup { font-size: 1rem; vertical-align: super; }
+    .card-price span { font-size: 0.85rem; color: var(--muted); }
+
+    .card-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .card-features li {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.83rem; color: var(--muted);
+    }
+
+    .check-icon {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--purple-100); color: var(--purple-600);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; flex-shrink: 0;
+    }
+
+    /* ── STATS ── */
+    .stats-bar {
+      background: var(--indigo-950);
+      padding: 2.5rem 5rem;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 2rem;
+    }
+
+    .stat-item {
+      display: flex; flex-direction: column; gap: 0.4rem;
+      padding-left: 2rem;
+      border-left: 2px solid var(--purple-600);
+    }
+
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem; font-weight: 300;
+      color: var(--white); line-height: 1;
+    }
+
+    .stat-number em { color: var(--purple-300); font-style: normal; }
+    .stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* ── PLANS ── */
+    .plans-section {
+      padding: 8rem 5rem;
+      background: var(--off-white);
+      position: relative; overflow: hidden;
+    }
+
+    .plans-section::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--purple-100) 0%, transparent 70%);
+    }
+
+    .section-header { text-align: center; margin-bottom: 4rem; }
+
+    .section-eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--purple-600);
+      font-weight: 500; margin-bottom: 1rem;
+      display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+    }
+
+    .section-eyebrow::before, .section-eyebrow::after {
+      content: ''; width: 40px; height: 1px; background: var(--purple-300);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem,3.5vw,3rem);
+      font-weight: 300; color: var(--indigo-950); line-height: 1.2;
+    }
+
+    .section-title em { font-style: italic; color: var(--purple-600); }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.5rem;
+      position: relative; z-index: 1;
+    }
+
+    .pricing-card {
+      background: var(--white);
+      border: 1px solid var(--purple-100);
+      border-radius: 16px;
+      padding: 2.5rem;
+      transition: all 0.4s ease;
+      position: relative; overflow: hidden;
+    }
+
+    .pricing-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--purple-600), var(--purple-300));
+      transform: scaleX(0); transition: transform 0.4s ease;
+    }
+
+    .pricing-card:hover {
+      border-color: var(--purple-200);
+      box-shadow: 0 20px 60px rgba(124,58,237,0.1);
+      transform: translateY(-4px);
+    }
+
+    .pricing-card:hover::before { transform: scaleX(1); }
+
+    .pricing-card.featured {
+      background: var(--indigo-950);
+      border-color: var(--indigo-950);
+    }
+
+    .pricing-card.featured::before { transform: scaleX(1); }
+    .pricing-card.featured .card-plan-name,
+    .pricing-card.featured .card-price { color: var(--white); }
+    .pricing-card.featured .card-plan-type { color: var(--purple-300); }
+    .pricing-card.featured .card-badge { background: rgba(124,58,237,0.3); color: var(--purple-200); }
+    .pricing-card.featured .card-features li { color: rgba(255,255,255,0.6); }
+    .pricing-card.featured .check-icon { background: rgba(124,58,237,0.4); color: var(--purple-300); }
+
+    .featured-badge {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: var(--purple-600); color: var(--white);
+      font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.3rem 0.8rem; border-radius: 20px;
+    }
+
+    .card-btn {
+      display: block; text-align: center; margin-top: 2rem;
+      padding: 0.85rem; border-radius: 6px;
+      font-size: 0.83rem; font-weight: 500; letter-spacing: 0.05em;
+      text-decoration: none; transition: all 0.3s ease;
+      border: 1.5px solid var(--purple-200); color: var(--purple-600);
+    }
+
+    .card-btn:hover { background: var(--purple-600); border-color: var(--purple-600); color: var(--white); }
+
+    .pricing-card.featured .card-btn {
+      background: var(--purple-600); border-color: var(--purple-600); color: var(--white);
+    }
+
+    .pricing-card.featured .card-btn:hover { background: var(--purple-700); }
+
+    /* ── FEATURES ── */
+    .features-section {
+      padding: 8rem 5rem;
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
+    }
+
+    .features-visual {
+      background: var(--purple-50);
+      border: 1px solid var(--purple-100);
+      border-radius: 20px; padding: 2.5rem;
+    }
+
+    .feature-metric {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.2rem;
+      background: var(--white);
+      border: 1px solid var(--purple-100);
+      border-radius: 10px; margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-metric:hover { transform: translateX(6px); }
+
+    .metric-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: var(--purple-100);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+
+    .metric-text { flex: 1; }
+    .metric-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 0.2rem; }
+
+    .metric-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 600; color: var(--indigo-950);
+    }
+
+    .metric-bar { height: 3px; background: var(--purple-100); border-radius: 2px; margin-top: 0.4rem; overflow: hidden; }
+
+    .metric-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--purple-600), var(--purple-300));
+      border-radius: 2px;
+      animation: fill-bar 2s ease 1s both;
+    }
+
+    @keyframes fill-bar { from { width: 0; } }
+
+    .features-right .section-header { text-align: left; }
+    .features-right .section-eyebrow { justify-content: flex-start; }
+    .features-right .section-eyebrow::before { display: none; }
+
+    .features-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .feature-item {
+      display: flex; gap: 1.2rem; align-items: flex-start;
+      padding: 1.2rem; border-radius: 10px;
+      transition: background 0.3s; cursor: default;
+    }
+
+    .feature-item:hover { background: var(--purple-50); }
+
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--purple-100); color: var(--purple-600);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+
+    .feature-text h4 { font-size: 0.95rem; font-weight: 500; color: var(--indigo-950); margin-bottom: 0.3rem; }
+    .feature-text p { font-size: 0.83rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 8rem 5rem;
+      background: var(--indigo-950);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 800px; height: 800px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, transparent 70%);
+    }
+
+    .cta-section::after {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 500px; height: 500px; border-radius: 50%;
+      border: 1px solid rgba(124,58,237,0.2);
+      animation: pulse-ring 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse-ring {
+      0%,100% { transform:translate(-50%,-50%) scale(1); opacity:0.5; }
+      50% { transform:translate(-50%,-50%) scale(1.05); opacity:1; }
+    }
+
+    .cta-content { position: relative; z-index: 1; }
+
+    .cta-eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--purple-300);
+      font-weight: 500; margin-bottom: 1.5rem;
+    }
+
+    .cta-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem,4vw,4rem);
+      font-weight: 300; color: var(--white);
+      line-height: 1.2; margin-bottom: 1.5rem;
+    }
+
+    .cta-title em { font-style: italic; color: var(--purple-300); }
+
+    .cta-subtitle {
+      font-size: 1rem; color: rgba(255,255,255,0.5);
+      margin-bottom: 3rem; max-width: 500px;
+      margin-left: auto; margin-right: auto; line-height: 1.8;
+    }
+
+    .cta-actions { display: flex; align-items: center; justify-content: center; gap: 1.2rem; }
+
+    .btn-white {
+      background: var(--white); color: var(--indigo-950);
+      padding: 1rem 2.5rem; border-radius: 4px;
+      text-decoration: none; font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.05em; transition: all 0.3s ease;
+      border: 2px solid var(--white);
+    }
+
+    .btn-white:hover { background: transparent; color: var(--white); }
+
+    .btn-ghost {
+      background: transparent; color: rgba(255,255,255,0.7);
+      padding: 1rem 2.5rem; border-radius: 4px;
+      text-decoration: none; font-size: 0.85rem; letter-spacing: 0.05em;
+      border: 1.5px solid rgba(255,255,255,0.2); transition: all 0.3s ease;
+    }
+
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0d0a1a;
+      padding: 4rem 5rem 2rem;
+      border-top: 1px solid rgba(124,58,237,0.15);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+
+    .footer-brand .nav-logo { display: block; margin-bottom: 1rem; color: var(--white); }
+
+    .footer-desc {
+      font-size: 0.82rem; color: rgba(255,255,255,0.35);
+      line-height: 1.8; max-width: 260px;
+    }
+
+    .footer-col h5 {
+      font-size: 0.72rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+      margin-bottom: 1.2rem; font-weight: 500;
+    }
+
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+
+    .footer-links a {
+      font-size: 0.83rem; color: rgba(255,255,255,0.35);
+      text-decoration: none; transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--purple-300); }
+
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .footer-bottom p { font-size: 0.75rem; color: rgba(255,255,255,0.2); }
+    .footer-bottom span { color: var(--purple-600); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fade-up {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    @keyframes fade-left {
+      from { opacity:0; transform:translateX(30px); }
+      to   { opacity:1; transform:translateX(0); }
+    }
+
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    @media (max-width:1024px) {
+      nav { padding:1.25rem 2rem; }
+      .hero { grid-template-columns:1fr; padding:8rem 2rem 4rem; }
+      .hero-visual { display:none; }
+      .stats-bar { grid-template-columns:repeat(2,1fr); padding:2rem; }
+      .plans-section, .features-section, .cta-section { padding:5rem 2rem; }
+      .plans-grid { grid-template-columns:1fr; }
+      .features-section { grid-template-columns:1fr; }
+      .footer-top { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">Waslaa<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#plans">Plans</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="/pages/login.html">Sign In</a></li>
+      <li><a href="/pages/register.html" class="btn-nav">Get Started</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-arc"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Premium Connectivity</div>
+      <h1 class="hero-title">
+        Stay Connected<br/>
+        <em>in Style</em> with<br/>
+        <strong>Waslaa Telecom</strong>
+      </h1>
+      <p class="hero-subtitle">
+        Experience seamless mobile and internet plans crafted for the modern life.
+        Transparent pricing. No hidden fees. Just pure connectivity.
+      </p>
+      <div class="hero-actions">
+        <a href="/pages/register.html" class="btn-primary">Explore Plans</a>
+        <a href="#features" class="btn-outline">Learn More</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="plan-card-stack">
+        <div class="plan-card">
+          <div class="card-badge"><span class="card-badge-dot"></span> Internet</div>
+          <div class="card-plan-name">Fiber Elite</div>
+          <div class="card-plan-type">High-Speed Broadband</div>
+          <div class="card-price"><sup>EGP</sup>199<span>/mo</span></div>
+        </div>
+        <div class="plan-card">
+          <div class="card-badge"><span class="card-badge-dot"></span> Mobile</div>
+          <div class="card-plan-name">Pro Mobile</div>
+          <div class="card-plan-type">Premium Voice & Data</div>
+          <div class="card-price"><sup>EGP</sup>99<span>/mo</span></div>
+        </div>
+        <div class="plan-card">
+          <div class="card-badge"><span class="card-badge-dot"></span> Mobile</div>
+          <div class="card-plan-name">Essential</div>
+          <div class="card-plan-type">Everyday Connectivity</div>
+          <div class="card-price"><sup>EGP</sup>49<span>/mo</span></div>
+          <ul class="card-features">
+            <li><span class="check-icon">✓</span> 10GB Data</li>
+            <li><span class="check-icon">✓</span> 200 Minutes</li>
+            <li><span class="check-icon">✓</span> 100 SMS</li>
+            <li><span class="check-icon">✓</span> 24/7 Support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-item reveal"><div class="stat-number">500<em>K+</em></div><div class="stat-label">Active Subscribers</div></div>
+    <div class="stat-item reveal"><div class="stat-number">99<em>.9%</em></div><div class="stat-label">Network Uptime</div></div>
+    <div class="stat-item reveal"><div class="stat-number">24<em>/7</em></div><div class="stat-label">Customer Support</div></div>
+    <div class="stat-item reveal"><div class="stat-number">12<em>+</em></div><div class="stat-label">Cities Covered</div></div>
+  </div>
+
+  <!-- PLANS -->
+  <section class="plans-section" id="plans">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Our Offerings</div>
+      <h2 class="section-title">Plans Designed for <em>Every Lifestyle</em></h2>
+    </div>
+    <div class="plans-grid">
+      <div class="pricing-card reveal">
+        <div class="card-badge"><span class="card-badge-dot"></span> Mobile</div>
+        <div class="card-plan-name">Essential</div>
+        <div class="card-plan-type">Perfect for light users</div>
+        <div class="card-price"><sup>EGP</sup>49<span>/month</span></div>
+        <ul class="card-features">
+          <li><span class="check-icon">✓</span> 10 GB Data</li>
+          <li><span class="check-icon">✓</span> 200 Voice Minutes</li>
+          <li><span class="check-icon">✓</span> 100 SMS</li>
+          <li><span class="check-icon">✓</span> Standard Support</li>
+        </ul>
+        <a href="/pages/register.html" class="card-btn">Get Started</a>
+      </div>
+      <div class="pricing-card featured reveal">
+        <div class="featured-badge">Most Popular</div>
+        <div class="card-badge"><span class="card-badge-dot"></span> Mobile</div>
+        <div class="card-plan-name">Pro</div>
+        <div class="card-plan-type">For the power user</div>
+        <div class="card-price"><sup>EGP</sup>99<span>/month</span></div>
+        <ul class="card-features">
+          <li><span class="check-icon">✓</span> 50 GB Data</li>
+          <li><span class="check-icon">✓</span> Unlimited Minutes</li>
+          <li><span class="check-icon">✓</span> Unlimited SMS</li>
+          <li><span class="check-icon">✓</span> Priority Support</li>
+        </ul>
+        <a href="/pages/register.html" class="card-btn">Get Started</a>
+      </div>
+      <div class="pricing-card reveal">
+        <div class="card-badge"><span class="card-badge-dot"></span> Internet</div>
+        <div class="card-plan-name">Fiber Elite</div>
+        <div class="card-plan-type">Blazing fast broadband</div>
+        <div class="card-price"><sup>EGP</sup>199<span>/month</span></div>
+        <ul class="card-features">
+          <li><span class="check-icon">✓</span> 500 Mbps Speed</li>
+          <li><span class="check-icon">✓</span> Unlimited Data</li>
+          <li><span class="check-icon">✓</span> Static IP Available</li>
+          <li><span class="check-icon">✓</span> 24/7 Priority Support</li>
+        </ul>
+        <a href="/pages/register.html" class="card-btn">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" id="features">
+    <div class="features-left reveal">
+      <div class="features-visual">
+        <div class="feature-metric">
+          <div class="metric-icon">📶</div>
+          <div class="metric-text">
+            <div class="metric-label">Network Coverage</div>
+            <div class="metric-value">99.9% Uptime</div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:99%"></div></div>
+          </div>
+        </div>
+        <div class="feature-metric">
+          <div class="metric-icon">⚡</div>
+          <div class="metric-text">
+            <div class="metric-label">Average Speed</div>
+            <div class="metric-value">480 Mbps</div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:85%"></div></div>
+          </div>
+        </div>
+        <div class="feature-metric">
+          <div class="metric-icon">😊</div>
+          <div class="metric-text">
+            <div class="metric-label">Customer Satisfaction</div>
+            <div class="metric-value">4.9 / 5.0</div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:95%"></div></div>
+          </div>
+        </div>
+        <div class="feature-metric">
+          <div class="metric-icon">🔒</div>
+          <div class="metric-text">
+            <div class="metric-label">Security Rating</div>
+            <div class="metric-value">Enterprise Grade</div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:100%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="features-right reveal">
+      <div class="section-header">
+        <div class="section-eyebrow">Why Waslaa</div>
+        <h2 class="section-title">Built for <em>Performance</em> & Peace of Mind</h2>
+      </div>
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-icon">🌐</div>
+          <div class="feature-text">
+            <h4>Nationwide Coverage</h4>
+            <p>Our network spans 12+ cities with continuous expansion, ensuring you stay connected wherever you go.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">💳</div>
+          <div class="feature-text">
+            <h4>Transparent Billing</h4>
+            <p>No hidden fees, no surprises. View your full billing history and manage payments with complete clarity.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🔄</div>
+          <div class="feature-text">
+            <h4>Flexible Plans</h4>
+            <p>Upgrade or downgrade your plan anytime. Our system adapts instantly to your changing needs.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-text">
+            <h4>Dedicated Support</h4>
+            <p>24/7 customer support with real humans ready to resolve your issues swiftly and professionally.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-content reveal">
+      <div class="cta-eyebrow">Get Started Today</div>
+      <h2 class="cta-title">Ready to Experience<br/><em>Premium Connectivity?</em></h2>
+      <p class="cta-subtitle">Join over 500,000 subscribers who trust Waslaa Telecom for their daily connectivity needs.</p>
+      <div class="cta-actions">
+        <a href="/pages/register.html" class="btn-white">Create Account</a>
+        <a href="#plans" class="btn-ghost">View Plans</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo">Waslaa<span style="color:var(--purple-600)">.</span></a>
+        <p class="footer-desc">Premium telecom services crafted for the modern connected life. Mobile, internet, and beyond.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <ul class="footer-links">
+          <li><a href="#plans">Mobile Plans</a></li>
+          <li><a href="#plans">Internet Plans</a></li>
+          <li><a href="#features">Coverage</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Account</h5>
+        <ul class="footer-links">
+          <li><a href="/pages/register.html">Register</a></li>
+          <li><a href="/pages/login.html">Sign In</a></li>
+          <li><a href="/pages/dashboard.html">Dashboard</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Support</h5>
+        <ul class="footer-links">
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Submit Ticket</a></li>
+          <li><a href="#">Announcements</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Waslaa Telecom. Crafted with <span>♥</span> for connectivity.</p>
+      <p>Privacy Policy · Terms of Service</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 120);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Nav shadow on scroll
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').style.boxShadow =
+        window.scrollY > 50 ? '0 4px 30px rgba(124,58,237,0.08)' : 'none';
+    });
+  </script>
+</body>
+</html>

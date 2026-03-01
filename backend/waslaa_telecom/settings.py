@@ -23,6 +23,9 @@ INSTALLED_APPS = [
     'waslaa_telecom.apps.subscriptions.apps.SubscriptionsConfig',
     'waslaa_telecom.apps.payments.apps.PaymentsConfig',
     'waslaa_telecom.apps.tickets.apps.TicketsConfig',
+    'waslaa_telecom.apps.analytics.apps.AnalyticsConfig',
+    'waslaa_telecom.apps.announcements.apps.AnnouncementsConfig',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +87,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True  # dev only
+CORS_ALLOW_ALL_ORIGINS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -93,4 +96,12 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Waslaa Telecom API',
+    'DESCRIPTION': 'Full API documentation for Waslaa Telecom Subscription Portal',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
