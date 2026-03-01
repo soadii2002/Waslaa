@@ -1,0 +1,68 @@
+name: Waslaa Telecom CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: 🧪 Run Django Tests
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: waslaa_db
+          POSTGRES_USER: waslaa_user
+          POSTGRES_PASSWORD: waslaa_pass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_NAME: waslaa_db
+      DB_USER: waslaa_user
+      DB_PASSWORD: waslaa_pass
+      DB_HOST: localhost
+      DB_PORT: 5432
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: ⏳ Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Waiting for postgres..."
+            sleep 1
+          done
+
+      - name: 🔄 Run migrations
+        run: |
+          cd backend
+          python manage.py migrate
+
+      - name: 🧪 Run all tests
+        run: |
+          cd backend
+          python manage.py test waslaa_telecom.apps --verbosity=2
+
+      - name: ✅ Tests passed
+        run: echo "All tests passed successfully!"
