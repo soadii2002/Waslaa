@@ -32,6 +32,7 @@ jobs:
       DB_PASSWORD: waslaa_pass
       DB_HOST: localhost
       DB_PORT: 5432
+      DJANGO_SETTINGS_MODULE: waslaa_telecom.settings
 
     steps:
       - name: 📥 Checkout code
@@ -43,9 +44,8 @@ jobs:
           python-version: '3.11'
 
       - name: 📦 Install dependencies
-        run: |
-          cd backend
-          pip install -r requirements.txt
+        working-directory: backend
+        run: pip install -r requirements.txt
 
       - name: ⏳ Wait for PostgreSQL
         run: |
@@ -55,14 +55,28 @@ jobs:
           done
 
       - name: 🔄 Run migrations
-        run: |
-          cd backend
-          python manage.py migrate
+        working-directory: backend
+        run: python manage.py migrate
 
-      - name: 🧪 Run all tests
-        run: |
-          cd backend
-          python manage.py test waslaa_telecom.apps --verbosity=2
+      - name: 🧪 Run users tests
+        working-directory: backend
+        run: python manage.py test waslaa_telecom.apps.users --verbosity=2
 
-      - name: ✅ Tests passed
-        run: echo "All tests passed successfully!"
+      - name: 🧪 Run plans tests
+        working-directory: backend
+        run: python manage.py test waslaa_telecom.apps.plans --verbosity=2
+
+      - name: 🧪 Run subscriptions tests
+        working-directory: backend
+        run: python manage.py test waslaa_telecom.apps.subscriptions --verbosity=2
+
+      - name: 🧪 Run payments tests
+        working-directory: backend
+        run: python manage.py test waslaa_telecom.apps.payments --verbosity=2
+
+      - name: 🧪 Run tickets tests
+        working-directory: backend
+        run: python manage.py test waslaa_telecom.apps.tickets --verbosity=2
+
+      - name: ✅ All tests passed
+        run: echo "🎉 58 tests passed successfully!"
