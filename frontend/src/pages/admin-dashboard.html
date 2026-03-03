@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Waslaa Telecom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --purple-600: #7C3AED;
+      --purple-700: #6D28D9;
+      --purple-800: #5B21B6;
+      --purple-50:  #F5F3FF;
+      --purple-100: #EDE9FE;
+      --purple-200: #DDD6FE;
+      --purple-300: #C4B5FD;
+      --indigo-950: #1E1B4B;
+      --white:      #FFFFFF;
+      --off-white:  #F9F9FB;
+      --muted:      #6B7280;
+      --border:     #E5E7EB;
+      --success:    #10B981;
+      --warning:    #F59E0B;
+      --error:      #EF4444;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: var(--off-white);
+      color: var(--indigo-950);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 260px; min-height: 100vh;
+      background: var(--indigo-950);
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; bottom: 0;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      padding: 2rem 1.5rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo-link {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 600;
+      color: var(--white); text-decoration: none;
+    }
+
+    .logo-link span { color: var(--purple-300); }
+    .logo-sub { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 0.2rem; }
+
+    .sidebar-user {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+
+    .user-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 500; color: var(--white); flex-shrink: 0;
+    }
+
+    .user-name { font-size: 0.85rem; font-weight: 500; color: var(--white); }
+    .user-role { font-size: 0.7rem; color: #FCD34D; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .sidebar-nav { flex: 1; padding: 1rem 0; overflow-y: auto; }
+
+    .nav-section-label {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25); padding: 0.8rem 1.5rem 0.4rem; font-weight: 500;
+    }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 0.75rem 1.5rem; color: rgba(255,255,255,0.5);
+      text-decoration: none; font-size: 0.85rem;
+      transition: all 0.2s ease; cursor: pointer;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+
+    .nav-item.active {
+      background: rgba(124,58,237,0.15); color: var(--white);
+      border-left-color: #A78BFA;
+    }
+
+    .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+
+    .nav-badge {
+      margin-left: auto; background: var(--error);
+      color: white; font-size: 0.65rem; font-weight: 500;
+      padding: 0.15rem 0.5rem; border-radius: 10px;
+    }
+
+    .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); }
+
+    .btn-logout {
+      display: flex; align-items: center; gap: 0.7rem;
+      width: 100%; padding: 0.7rem 1rem;
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 8px; color: #FCA5A5;
+      font-family: 'DM Sans', sans-serif; font-size: 0.83rem;
+      cursor: pointer; transition: all 0.2s;
+    }
+
+    .btn-logout:hover { background: rgba(239,68,68,0.2); }
+
+    /* ── MAIN ── */
+    .main { margin-left: 260px; flex: 1; min-height: 100vh; display: flex; flex-direction: column; }
+
+    .topbar {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+
+    .topbar-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; }
+    .topbar-date { font-size: 0.8rem; color: var(--muted); }
+
+    .content { flex: 1; padding: 2rem; }
+
+    .panel { display: none; }
+    .panel.active { display: block; animation: fade-in 0.4s ease; }
+
+    @keyframes fade-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── SHARED COMPONENTS ── */
+    .page-header { margin-bottom: 1.5rem; }
+    .page-title { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; margin-bottom: 0.3rem; }
+    .page-sub { font-size: 0.85rem; color: var(--muted); }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+
+    .stat-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem; transition: all 0.3s;
+    }
+
+    .stat-card:hover { border-color: var(--purple-200); box-shadow: 0 4px 20px rgba(124,58,237,0.08); }
+
+    .stat-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+
+    .stat-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--purple-50); display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem;
+    }
+
+    .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--indigo-950); line-height: 1; margin-bottom: 0.3rem; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; }
+
+    .pill { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.6rem; border-radius: 10px; font-size: 0.72rem; font-weight: 500; }
+    .pill-green { background: #D1FAE5; color: #065F46; }
+    .pill-purple { background: var(--purple-100); color: var(--purple-700); }
+    .pill-yellow { background: #FEF3C7; color: #92400E; }
+    .pill-red { background: #FEE2E2; color: #DC2626; }
+    .pill-gray { background: #F3F4F6; color: #4B5563; }
+
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+    .card-header { padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .card-title { font-size: 0.9rem; font-weight: 500; color: var(--indigo-950); }
+    .card-body { padding: 1.5rem; }
+
+    /* Tables */
+    .data-table { width: 100%; border-collapse: collapse; }
+
+    .data-table th {
+      text-align: left; font-size: 0.72rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); font-weight: 500;
+      padding: 0 0 0.8rem; border-bottom: 1px solid var(--border);
+    }
+
+    .data-table td { padding: 0.9rem 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; color: var(--indigo-950); vertical-align: middle; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--purple-50); }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--purple-600); color: var(--white);
+      padding: 0.6rem 1.2rem; border-radius: 6px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+      font-weight: 500; cursor: pointer; border: none;
+      transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem;
+    }
+
+    .btn-primary:hover { background: var(--purple-800); }
+
+    .btn-secondary {
+      background: var(--white); color: var(--indigo-950);
+      padding: 0.6rem 1.2rem; border-radius: 6px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+      cursor: pointer; border: 1.5px solid var(--border); transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+    }
+
+    .btn-secondary:hover { border-color: var(--purple-300); color: var(--purple-600); }
+
+    .btn-danger {
+      background: #FEE2E2; color: #DC2626;
+      padding: 0.4rem 0.8rem; border-radius: 6px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.75rem;
+      cursor: pointer; border: 1px solid #FECACA; transition: all 0.2s;
+    }
+
+    .btn-danger:hover { background: #DC2626; color: white; }
+
+    .btn-edit {
+      background: var(--purple-50); color: var(--purple-600);
+      padding: 0.4rem 0.8rem; border-radius: 6px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.75rem;
+      cursor: pointer; border: 1px solid var(--purple-100); transition: all 0.2s;
+    }
+
+    .btn-edit:hover { background: var(--purple-600); color: white; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15,1,32,0.5); backdrop-filter: blur(4px);
+      z-index: 200; display: none;
+      align-items: center; justify-content: center;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--white); border-radius: 16px;
+      padding: 2rem; width: 100%; max-width: 480px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+      animation: modal-in 0.3s ease;
+    }
+
+    @keyframes modal-in { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
+
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; }
+    .modal-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--muted); }
+    .modal-close:hover { color: var(--indigo-950); }
+    .modal-footer { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; }
+
+    /* Form */
+    .form-group { margin-bottom: 1rem; }
+    .form-label { display: block; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--indigo-950); font-weight: 500; margin-bottom: 0.4rem; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: 0.75rem 1rem;
+      border: 1.5px solid var(--purple-200); border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+      color: var(--indigo-950); background: var(--white); outline: none; transition: all 0.3s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--purple-600); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+    .form-textarea { resize: vertical; min-height: 80px; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* Search */
+    .search-bar {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+    }
+
+    .search-input-wrap { position: relative; flex: 1; }
+    .search-input {
+      width: 100%; padding: 0.65rem 1rem 0.65rem 2.5rem;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+      outline: none; transition: all 0.3s; background: var(--white);
+    }
+    .search-input:focus { border-color: var(--purple-600); }
+    .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--indigo-950); color: var(--white);
+      padding: 0.8rem 1.2rem; border-radius: 8px;
+      font-size: 0.83rem; display: flex; align-items: center; gap: 0.6rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      transform: translateY(100px); opacity: 0;
+      transition: all 0.3s ease; z-index: 1000;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-left: 3px solid var(--success); }
+    .toast.error { border-left: 3px solid var(--error); }
+
+    .spinner { width: 28px; height: 28px; border: 2px solid var(--purple-100); border-top-color: var(--purple-600); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 0.8rem; }
+    .loading-state { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.85rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Analytics charts */
+    .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+    .breakdown-item { display: flex; align-items: center; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--border); }
+    .breakdown-item:last-child { border-bottom: none; }
+    .breakdown-bar-wrap { flex: 1; height: 6px; background: var(--purple-100); border-radius: 3px; overflow: hidden; }
+    .breakdown-bar { height: 100%; background: linear-gradient(90deg, var(--purple-600), var(--purple-300)); border-radius: 3px; transition: width 1s ease; }
+    .breakdown-label { font-size: 0.82rem; color: var(--indigo-950); min-width: 100px; }
+    .breakdown-count { font-size: 0.82rem; color: var(--muted); min-width: 30px; text-align: right; }
+
+    @media (max-width: 1024px) {
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .analytics-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="../index.html" class="logo-link">Waslaa<span>.</span></a>
+      <div class="logo-sub">Admin Panel</div>
+    </div>
+
+    <div class="sidebar-user">
+      <div class="user-avatar" id="sidebarAvatar">A</div>
+      <div>
+        <div class="user-name" id="sidebarName">Admin</div>
+        <div class="user-role">⚡ Administrator</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a class="nav-item active" onclick="switchPanel('analytics', this)">
+        <span class="nav-icon">📊</span> Analytics
+      </a>
+
+      <div class="nav-section-label">Management</div>
+      <a class="nav-item" onclick="switchPanel('plans', this)">
+        <span class="nav-icon">📱</span> Plans
+      </a>
+      <a class="nav-item" onclick="switchPanel('customers', this)">
+        <span class="nav-icon">👥</span> Customers
+      </a>
+      <a class="nav-item" onclick="switchPanel('subscriptions', this)">
+        <span class="nav-icon">🔄</span> Subscriptions
+      </a>
+      <a class="nav-item" onclick="switchPanel('payments', this)">
+        <span class="nav-icon">💳</span> Payments
+      </a>
+
+      <div class="nav-section-label">Content</div>
+      <a class="nav-item" onclick="switchPanel('tickets', this)">
+        <span class="nav-icon">🎫</span> Support Tickets
+        <span class="nav-badge" id="ticketBadge" style="display:none">0</span>
+      </a>
+      <a class="nav-item" onclick="switchPanel('announcements', this)">
+        <span class="nav-icon">📢</span> Announcements
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="logout()">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Analytics Dashboard</div>
+      <div class="topbar-date" id="topbarDate"></div>
+    </div>
+
+    <div class="content">
+
+      <!-- ── ANALYTICS ── -->
+      <div class="panel active" id="panel-analytics">
+        <div class="page-header">
+          <div class="page-title">Analytics Dashboard</div>
+          <div class="page-sub">Real-time overview of Waslaa Telecom performance.</div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-header"><div class="stat-icon">👥</div></div>
+            <div class="stat-value" id="ana-customers">—</div>
+            <div class="stat-label">Total Customers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-header"><div class="stat-icon">🔄</div></div>
+            <div class="stat-value" id="ana-subs">—</div>
+            <div class="stat-label">Active Subscriptions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-header"><div class="stat-icon">💰</div></div>
+            <div class="stat-value" id="ana-revenue">—</div>
+            <div class="stat-label">Total Revenue (EGP)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-header"><div class="stat-icon">🎫</div></div>
+            <div class="stat-value" id="ana-tickets">—</div>
+            <div class="stat-label">Open Tickets</div>
+          </div>
+        </div>
+
+        <div class="analytics-grid">
+          <div class="card">
+            <div class="card-header"><span class="card-title">📊 Subscriptions by Plan</span></div>
+            <div class="card-body" id="plansBreakdown">
+              <div class="loading-state"><div class="spinner"></div>Loading...</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">📡 Plan Type Distribution</span></div>
+            <div class="card-body" id="typeBreakdown">
+              <div class="loading-state"><div class="spinner"></div>Loading...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PLANS ── -->
+      <div class="panel" id="panel-plans">
+        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div class="page-title">Plan Management</div>
+            <div class="page-sub">Create, edit, and manage all telecom plans.</div>
+          </div>
+          <button class="btn-primary" onclick="openPlanModal()">＋ New Plan</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">All Plans</span></div>
+          <div class="card-body">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Plan Name</th>
+                  <th>Type</th>
+                  <th>Price (EGP)</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="plansTableBody">
+                <tr><td colspan="5"><div class="loading-state"><div class="spinner"></div></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CUSTOMERS ── -->
+      <div class="panel" id="panel-customers">
+        <div class="page-header">
+          <div class="page-title">Customer Management</div>
+          <div class="page-sub">View and manage all registered customers.</div>
+        </div>
+
+        <div class="search-bar">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="customerSearch" placeholder="Search by name or email..." oninput="filterCustomers(this.value)"/>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">All Customers</span>
+            <span id="customerCount" style="font-size:0.8rem;color:var(--muted)"></span>
+          </div>
+          <div class="card-body">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Joined</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="customersTableBody">
+                <tr><td colspan="5"><div class="loading-state"><div class="spinner"></div></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SUBSCRIPTIONS ── -->
+      <div class="panel" id="panel-subscriptions">
+        <div class="page-header">
+          <div class="page-title">Subscriptions</div>
+          <div class="page-sub">Monitor all customer subscriptions.</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">All Subscriptions</span></div>
+          <div class="card-body">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Plan</th>
+                  <th>Status</th>
+                  <th>Start Date</th>
+                </tr>
+              </thead>
+              <tbody id="subsTableBody">
+                <tr><td colspan="4"><div class="loading-state"><div class="spinner"></div></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PAYMENTS ── -->
+      <div class="panel" id="panel-payments">
+        <div class="page-header">
+          <div class="page-title">Payment Management</div>
+          <div class="page-sub">View and manage all payments.</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">All Payments</span></div>
+          <div class="card-body">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Reference</th>
+                  <th>Subscription</th>
+                  <th>Amount (EGP)</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="paymentsTableBody">
+                <tr><td colspan="6"><div class="loading-state"><div class="spinner"></div></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TICKETS ── -->
+      <div class="panel" id="panel-tickets">
+        <div class="page-header">
+          <div class="page-title">Support Tickets</div>
+          <div class="page-sub">Respond to customer support requests.</div>
+        </div>
+        <div id="ticketsList">
+          <div class="loading-state"><div class="spinner"></div>Loading tickets...</div>
+        </div>
+      </div>
+
+      <!-- ── ANNOUNCEMENTS ── -->
+      <div class="panel" id="panel-announcements">
+        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div class="page-title">Announcements</div>
+            <div class="page-sub">Broadcast messages to all customers.</div>
+          </div>
+          <button class="btn-primary" onclick="openAnnModal()">＋ New Announcement</button>
+        </div>
+        <div id="annList">
+          <div class="loading-state"><div class="spinner"></div>Loading...</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── MODALS ── -->
+
+  <!-- Plan Modal -->
+  <div class="modal-overlay" id="planModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="planModalTitle">New Plan</div>
+        <button class="modal-close" onclick="closeModal('planModal')">✕</button>
+      </div>
+      <input type="hidden" id="planId"/>
+      <div class="form-row-2">
+        <div class="form-group">
+          <label class="form-label">Plan Name</label>
+          <input type="text" class="form-input" id="planName" placeholder="e.g. Basic Mobile"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Plan Type</label>
+          <select class="form-select" id="planType">
+            <option value="mobile">Mobile</option>
+            <option value="internet">Internet</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div class="form-group">
+          <label class="form-label">Price (EGP/month)</label>
+          <input type="number" class="form-input" id="planPrice" placeholder="0.00" step="0.01"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="planStatus">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <input type="text" class="form-input" id="planDesc" placeholder="Short description"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Features (JSON)</label>
+        <textarea class="form-textarea" id="planFeatures" placeholder='{"data_gb": 10, "voice_minutes": 200}'></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('planModal')">Cancel</button>
+        <button class="btn-primary" onclick="savePlan()">Save Plan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Announcement Modal -->
+  <div class="modal-overlay" id="annModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">New Announcement</div>
+        <button class="modal-close" onclick="closeModal('annModal')">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Title</label>
+        <input type="text" class="form-input" id="annTitle" placeholder="Announcement title"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" id="annBody" style="min-height:120px" placeholder="Write your announcement..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('annModal')">Cancel</button>
+        <button class="btn-primary" onclick="saveAnnouncement()">Publish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticket Reply Modal -->
+  <div class="modal-overlay" id="replyModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Reply to Ticket</div>
+        <button class="modal-close" onclick="closeModal('replyModal')">✕</button>
+      </div>
+      <input type="hidden" id="replyTicketId"/>
+      <div id="replyTicketInfo" style="background:var(--purple-50);border:1px solid var(--purple-100);border-radius:8px;padding:1rem;margin-bottom:1rem;font-size:0.85rem;color:var(--muted)"></div>
+      <div class="form-group">
+        <label class="form-label">Your Reply</label>
+        <textarea class="form-textarea" id="replyText" style="min-height:120px" placeholder="Type your response..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('replyModal')">Cancel</button>
+        <button class="btn-primary" onclick="sendReply()">Send Reply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Status Modal -->
+  <div class="modal-overlay" id="paymentModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Update Payment Status</div>
+        <button class="modal-close" onclick="closeModal('paymentModal')">✕</button>
+      </div>
+      <input type="hidden" id="paymentId"/>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="paymentStatus">
+          <option value="pending">Pending</option>
+          <option value="completed">Completed</option>
+          <option value="failed">Failed</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('paymentModal')">Cancel</button>
+        <button class="btn-primary" onclick="updatePaymentStatus()">Update</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API = '/api';
+    let allCustomers = [];
+
+    // ── INIT ──
+    window.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('topbarDate').textContent = new Date().toLocaleDateString('en-EG', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      });
+
+      const stored = localStorage.getItem('waslaa_user');
+      if (!stored) { window.location.href = 'login.html'; return; }
+      const user = JSON.parse(stored);
+      if (user.role !== 'admin') { window.location.href = 'dashboard.html'; return; }
+
+      const initials = `${user.first_name?.[0]||''}${user.last_name?.[0]||''}`.toUpperCase() || 'A';
+      document.getElementById('sidebarAvatar').textContent = initials;
+      document.getElementById('sidebarName').textContent = `${user.first_name||''} ${user.last_name||''}`.trim();
+
+      await loadAnalytics();
+    });
+
+    // ── PANEL SWITCH ──
+    function switchPanel(name, el) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById(`panel-${name}`).classList.add('active');
+      if (el) el.classList.add('active');
+
+      const titles = { analytics:'Analytics Dashboard', plans:'Plan Management', customers:'Customer Management', subscriptions:'Subscriptions', payments:'Payment Management', tickets:'Support Tickets', announcements:'Announcements' };
+      document.getElementById('topbarTitle').textContent = titles[name] || name;
+
+      // Lazy load
+      const loaders = { plans: loadPlans, customers: loadCustomers, subscriptions: loadSubscriptions, payments: loadPayments, tickets: loadTickets, announcements: loadAnnouncements };
+      if (loaders[name]) loaders[name]();
+    }
+
+    // ── API ──
+    async function apiFetch(path, opts = {}) {
+      return fetch(`${API}${path}`, {
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', ...opts.headers },
+        ...opts,
+      });
+    }
+
+    // ── ANALYTICS ──
+    async function loadAnalytics() {
+      try {
+        const res = await apiFetch('/analytics/dashboard/');
+        if (!res.ok) return;
+        const d = await res.json();
+
+        document.getElementById('ana-customers').textContent = d.total_customers;
+        document.getElementById('ana-subs').textContent = d.total_active_subscriptions;
+        document.getElementById('ana-revenue').textContent = parseFloat(d.total_revenue).toFixed(2);
+        document.getElementById('ana-tickets').textContent = d.open_tickets;
+
+        if (d.open_tickets > 0) {
+          document.getElementById('ticketBadge').style.display = 'inline';
+          document.getElementById('ticketBadge').textContent = d.open_tickets;
+        }
+
+        // Plans breakdown
+        const maxSubs = Math.max(...(d.plans_breakdown.map(p => p.subscription_count) || [1]), 1);
+        document.getElementById('plansBreakdown').innerHTML = d.plans_breakdown.length
+          ? d.plans_breakdown.map(p => `
+            <div class="breakdown-item">
+              <div class="breakdown-label">${p.plan__name}</div>
+              <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${(p.subscription_count/maxSubs)*100}%"></div></div>
+              <div class="breakdown-count">${p.subscription_count}</div>
+            </div>
+          `).join('')
+          : '<p style="color:var(--muted);font-size:0.85rem">No subscriptions yet.</p>';
+
+        // Type distribution
+        const total = (d.mobile_plans_count + d.internet_plans_count) || 1;
+        document.getElementById('typeBreakdown').innerHTML = `
+          <div class="breakdown-item">
+            <div class="breakdown-label">📱 Mobile</div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${(d.mobile_plans_count/total)*100}%"></div></div>
+            <div class="breakdown-count">${d.mobile_plans_count}</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">🌐 Internet</div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${(d.internet_plans_count/total)*100}%"></div></div>
+            <div class="breakdown-count">${d.internet_plans_count}</div>
+          </div>
+          <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+            <div style="font-size:0.78rem;color:var(--muted);margin-bottom:0.5rem">Revenue Breakdown</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--purple-600)">
+              EGP ${parseFloat(d.total_revenue).toFixed(2)}
+            </div>
+            <div style="font-size:0.75rem;color:var(--muted)">Total from completed payments</div>
+          </div>
+        `;
+      } catch(e) { console.error(e); }
+    }
+
+    // ── PLANS ──
+    async function loadPlans() {
+      const res = await apiFetch('/plans/');
+      if (!res.ok) return;
+      const plans = await res.json();
+
+      document.getElementById('plansTableBody').innerHTML = plans.length
+        ? plans.map(p => `
+          <tr>
+            <td><strong>${p.name}</strong></td>
+            <td><span class="pill ${p.plan_type==='mobile'?'pill-purple':'pill-green'}">${p.plan_type}</span></td>
+            <td>EGP ${p.price}</td>
+            <td><span class="pill ${p.is_active?'pill-green':'pill-gray'}">${p.is_active?'Active':'Inactive'}</span></td>
+            <td style="display:flex;gap:0.5rem;padding-top:0.9rem">
+              <button class="btn-edit" onclick="editPlan(${JSON.stringify(p).replace(/"/g,'&quot;')})">Edit</button>
+              <button class="btn-danger" onclick="deletePlan(${p.id})">Delete</button>
+            </td>
+          </tr>
+        `).join('')
+        : '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:2rem">No plans yet. Create one!</td></tr>';
+    }
+
+    function openPlanModal(plan = null) {
+      document.getElementById('planId').value = plan?.id || '';
+      document.getElementById('planName').value = plan?.name || '';
+      document.getElementById('planType').value = plan?.plan_type || 'mobile';
+      document.getElementById('planPrice').value = plan?.price || '';
+      document.getElementById('planStatus').value = plan ? String(plan.is_active) : 'true';
+      document.getElementById('planDesc').value = plan?.description || '';
+      document.getElementById('planFeatures').value = plan ? JSON.stringify(plan.features, null, 2) : '';
+      document.getElementById('planModalTitle').textContent = plan ? 'Edit Plan' : 'New Plan';
+      document.getElementById('planModal').classList.add('open');
+    }
+
+    function editPlan(plan) { openPlanModal(plan); }
+
+    async function savePlan() {
+      const id = document.getElementById('planId').value;
+      let features = {};
+      try { features = JSON.parse(document.getElementById('planFeatures').value || '{}'); } catch { showToast('Invalid JSON in features.', 'error'); return; }
+
+      const payload = {
+        name: document.getElementById('planName').value,
+        plan_type: document.getElementById('planType').value,
+        price: document.getElementById('planPrice').value,
+        description: document.getElementById('planDesc').value,
+        features,
+        is_active: document.getElementById('planStatus').value === 'true',
+      };
+
+      const res = await apiFetch(id ? `/plans/${id}/` : '/plans/', {
+        method: id ? 'PATCH' : 'POST',
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        showToast(id ? 'Plan updated! ✓' : 'Plan created! ✓', 'success');
+        closeModal('planModal');
+        await loadPlans();
+        await loadAnalytics();
+      } else showToast('Failed to save plan.', 'error');
+    }
+
+    async function deletePlan(id) {
+      if (!confirm('Delete this plan? This cannot be undone.')) return;
+      const res = await apiFetch(`/plans/${id}/`, { method: 'DELETE' });
+      if (res.ok) { showToast('Plan deleted.', 'success'); await loadPlans(); await loadAnalytics(); }
+      else showToast('Cannot delete — plan may have active subscriptions.', 'error');
+    }
+
+    // ── CUSTOMERS ──
+    async function loadCustomers() {
+      // We use users list — fetch from Django admin or build a custom endpoint
+      // For now we show a note — this requires an admin users endpoint
+      try {
+        const res = await apiFetch('/users/customers/');
+        if (!res.ok) {
+          document.getElementById('customersTableBody').innerHTML =
+            '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:2rem">Customer list endpoint not yet available. Add <code>GET /api/users/customers/</code> to expose this data.</td></tr>';
+          return;
+        }
+        allCustomers = await res.json();
+        renderCustomers(allCustomers);
+      } catch {
+        document.getElementById('customersTableBody').innerHTML =
+          '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:2rem">Could not load customers.</td></tr>';
+      }
+    }
+
+    function renderCustomers(customers) {
+      document.getElementById('customerCount').textContent = `${customers.length} customers`;
+      document.getElementById('customersTableBody').innerHTML = customers.length
+        ? customers.map(c => `
+          <tr>
+            <td>
+              <div style="display:flex;align-items:center;gap:0.7rem">
+                <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--purple-600),var(--purple-800));display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:500">
+                  ${(c.first_name?.[0]||'?').toUpperCase()}
+                </div>
+                <div>
+                  <div style="font-weight:500">${c.first_name} ${c.last_name}</div>
+                </div>
+              </div>
+            </td>
+            <td>${c.email}</td>
+            <td>${c.phone_number || '—'}</td>
+            <td>${new Date(c.date_joined||c.created_at).toLocaleDateString('en-EG')}</td>
+            <td><span class="pill ${c.is_active?'pill-green':'pill-gray'}">${c.is_active?'Active':'Inactive'}</span></td>
+          </tr>
+        `).join('')
+        : '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:2rem">No customers found.</td></tr>';
+    }
+
+    function filterCustomers(query) {
+      const q = query.toLowerCase();
+      const filtered = allCustomers.filter(c =>
+        `${c.first_name} ${c.last_name} ${c.email}`.toLowerCase().includes(q)
+      );
+      renderCustomers(filtered);
+    }
+
+    // ── SUBSCRIPTIONS ──
+    async function loadSubscriptions() {
+      // Requires admin list endpoint — we'll show placeholder
+      document.getElementById('subsTableBody').innerHTML =
+        '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:2rem">Add <code>GET /api/subscriptions/admin/</code> to list all subscriptions.</td></tr>';
+    }
+
+    // ── PAYMENTS ──
+    async function loadPayments() {
+      const res = await apiFetch('/payments/admin/');
+      if (!res.ok) return;
+      const payments = await res.json();
+
+      document.getElementById('paymentsTableBody').innerHTML = payments.length
+        ? payments.map(p => `
+          <tr>
+            <td><code style="font-size:0.75rem;color:var(--purple-600)">${p.mock_reference?.slice(0,14)}...</code></td>
+            <td>#${p.subscription}</td>
+            <td><strong>EGP ${p.amount}</strong></td>
+            <td><span class="pill ${p.status==='completed'?'pill-green':p.status==='pending'?'pill-yellow':'pill-red'}">${p.status}</span></td>
+            <td>${new Date(p.created_at).toLocaleDateString('en-EG')}</td>
+            <td><button class="btn-edit" onclick="openPaymentModal(${p.id},'${p.status}')">Edit</button></td>
+          </tr>
+        `).join('')
+        : '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">No payments found.</td></tr>';
+    }
+
+    function openPaymentModal(id, status) {
+      document.getElementById('paymentId').value = id;
+      document.getElementById('paymentStatus').value = status;
+      document.getElementById('paymentModal').classList.add('open');
+    }
+
+    async function updatePaymentStatus() {
+      const id = document.getElementById('paymentId').value;
+      const status = document.getElementById('paymentStatus').value;
+      const res = await apiFetch(`/payments/admin/${id}/`, { method: 'PATCH', body: JSON.stringify({ status }) });
+      if (res.ok) { showToast('Payment updated! ✓', 'success'); closeModal('paymentModal'); await loadPayments(); }
+      else showToast('Failed to update payment.', 'error');
+    }
+
+    // ── TICKETS ──
+    async function loadTickets() {
+      const res = await apiFetch('/tickets/admin/');
+      if (!res.ok) return;
+      const tickets = await res.json();
+
+      const open = tickets.filter(t => t.status === 'open').length;
+      if (open > 0) {
+        document.getElementById('ticketBadge').style.display = 'inline';
+        document.getElementById('ticketBadge').textContent = open;
+      }
+
+      document.getElementById('ticketsList').innerHTML = tickets.length
+        ? tickets.map(t => `
+          <div class="card" style="margin-bottom:1rem">
+            <div class="card-header">
+              <div>
+                <div style="font-weight:500;margin-bottom:0.2rem">${t.subject}</div>
+                <div style="font-size:0.75rem;color:var(--muted)">From customer #${t.customer} · ${new Date(t.created_at).toLocaleDateString('en-EG')}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.8rem">
+                <span class="pill pill-yellow">${t.status}</span>
+                ${!t.admin_reply ? `<button class="btn-primary" onclick="openReplyModal(${t.id}, '${t.subject.replace(/'/g,"\\'")}', '${t.message.replace(/'/g,"\\'")}')">Reply</button>` : '<span class="pill pill-green">✓ Replied</span>'}
+              </div>
+            </div>
+            <div class="card-body">
+              <p style="font-size:0.85rem;color:var(--muted);margin-bottom:${t.admin_reply?'1rem':'0'}">${t.message}</p>
+              ${t.admin_reply ? `
+                <div style="background:var(--purple-50);border:1px solid var(--purple-100);border-radius:8px;padding:1rem">
+                  <div style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-600);margin-bottom:0.3rem">Your Reply</div>
+                  <div style="font-size:0.85rem;color:var(--indigo-950)">${t.admin_reply}</div>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `).join('')
+        : '<div style="text-align:center;padding:3rem;color:var(--muted)">No support tickets yet.</div>';
+    }
+
+    function openReplyModal(id, subject, message) {
+      document.getElementById('replyTicketId').value = id;
+      document.getElementById('replyTicketInfo').innerHTML = `<strong>${subject}</strong><br/><span style="color:var(--muted)">${message}</span>`;
+      document.getElementById('replyText').value = '';
+      document.getElementById('replyModal').classList.add('open');
+    }
+
+    async function sendReply() {
+      const id = document.getElementById('replyTicketId').value;
+      const reply = document.getElementById('replyText').value.trim();
+      if (!reply) { showToast('Please enter a reply.', 'error'); return; }
+      const res = await apiFetch(`/tickets/admin/${id}/reply/`, { method: 'PATCH', body: JSON.stringify({ admin_reply: reply }) });
+      if (res.ok) { showToast('Reply sent! ✓', 'success'); closeModal('replyModal'); await loadTickets(); }
+      else showToast('Failed to send reply.', 'error');
+    }
+
+    // ── ANNOUNCEMENTS ──
+    async function loadAnnouncements() {
+      const res = await apiFetch('/announcements/');
+      if (!res.ok) return;
+      const anns = await res.json();
+
+      document.getElementById('annList').innerHTML = anns.length
+        ? anns.map(a => `
+          <div class="card" style="margin-bottom:1rem">
+            <div class="card-header">
+              <div>
+                <div style="font-weight:500">📢 ${a.title}</div>
+                <div style="font-size:0.75rem;color:var(--muted);margin-top:0.2rem">${new Date(a.created_at).toLocaleDateString('en-EG')}</div>
+              </div>
+              <button class="btn-danger" onclick="deleteAnn(${a.id})">Delete</button>
+            </div>
+            <div class="card-body">
+              <p style="font-size:0.85rem;color:var(--muted)">${a.body}</p>
+            </div>
+          </div>
+        `).join('')
+        : '<div style="text-align:center;padding:3rem;color:var(--muted)">No announcements yet. Create one!</div>';
+    }
+
+    function openAnnModal() {
+      document.getElementById('annTitle').value = '';
+      document.getElementById('annBody').value = '';
+      document.getElementById('annModal').classList.add('open');
+    }
+
+    async function saveAnnouncement() {
+      const title = document.getElementById('annTitle').value.trim();
+      const body = document.getElementById('annBody').value.trim();
+      if (!title || !body) { showToast('Please fill in all fields.', 'error'); return; }
+      const res = await apiFetch('/announcements/', { method: 'POST', body: JSON.stringify({ title, body }) });
+      if (res.ok) { showToast('Announcement published! ✓', 'success'); closeModal('annModal'); await loadAnnouncements(); }
+      else showToast('Failed to publish.', 'error');
+    }
+
+    async function deleteAnn(id) {
+      if (!confirm('Delete this announcement?')) return;
+      const res = await apiFetch(`/announcements/${id}/`, { method: 'DELETE' });
+      if (res.ok) { showToast('Deleted.', 'success'); await loadAnnouncements(); }
+      else showToast('Failed to delete.', 'error');
+    }
+
+    // ── MODALS ──
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+      m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+    });
+
+    // ── LOGOUT ──
+    async function logout() {
+      try { await apiFetch('/users/logout/', { method: 'POST' }); } catch {}
+      localStorage.removeItem('waslaa_user');
+      window.location.href = 'login.html';
+    }
+
+    // ── TOAST ──
+    function showToast(msg, type = 'success') {
+      const t = document.getElementById('toast');
+      t.textContent = (type === 'success' ? '✓ ' : '✗ ') + msg;
+      t.className = `toast ${type} show`;
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>

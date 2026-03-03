@@ -58,25 +58,18 @@ jobs:
         working-directory: backend
         run: python manage.py migrate
 
-      - name: 🧪 Run users tests
+      - name: 🧪 Run All Tests
         working-directory: backend
-        run: python manage.py test waslaa_telecom.apps.users --verbosity=2
-
-      - name: 🧪 Run plans tests
-        working-directory: backend
-        run: python manage.py test waslaa_telecom.apps.plans --verbosity=2
-
-      - name: 🧪 Run subscriptions tests
-        working-directory: backend
-        run: python manage.py test waslaa_telecom.apps.subscriptions --verbosity=2
-
-      - name: 🧪 Run payments tests
-        working-directory: backend
-        run: python manage.py test waslaa_telecom.apps.payments --verbosity=2
-
-      - name: 🧪 Run tickets tests
-        working-directory: backend
-        run: python manage.py test waslaa_telecom.apps.tickets --verbosity=2
+        run: |
+          python manage.py test \
+            waslaa_telecom.apps.users \
+            waslaa_telecom.apps.plans \
+            waslaa_telecom.apps.subscriptions \
+            waslaa_telecom.apps.payments \
+            waslaa_telecom.apps.tickets \
+            waslaa_telecom.apps.analytics \
+            waslaa_telecom.apps.announcements \
+            --verbosity=2
 
       - name: ✅ All tests passed
-        run: echo "🎉 58 tests passed successfully!"
+        run: echo "🎉 87 tests passed successfully!"

@@ -987,7 +987,27 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    const API = 'http://localhost:8000/api';
+    // Get CSRF token before any requests
+async function getCsrfToken() {
+    await fetch('/api/csrf/', { credentials: 'include' });
+    const match = document.cookie.match(/csrftoken=([^;]+)/);
+    return match ? match[1] : '';
+}
+
+// Updated apiFetch with CSRF token
+async function apiFetch(path, opts = {}) {
+    const csrf = await getCsrfToken();
+    return fetch(`${API}${path}`, {
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrf,
+            ...opts.headers,
+        },
+        ...opts,
+    });
+}
+    const API = '/api';
     let currentUser = null;
     let currentSub = null;
     let allPlans = [];

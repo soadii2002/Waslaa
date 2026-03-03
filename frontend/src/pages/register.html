@@ -9,357 +9,120 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --purple-600: #7C3AED;
-      --purple-700: #6D28D9;
-      --purple-800: #5B21B6;
-      --purple-50:  #F5F3FF;
-      --purple-100: #EDE9FE;
-      --purple-200: #DDD6FE;
-      --purple-300: #C4B5FD;
-      --indigo-950: #1E1B4B;
-      --white:      #FFFFFF;
-      --muted:      #6B7280;
-      --error:      #EF4444;
-      --success:    #10B981;
+      --purple-600: #7C3AED; --purple-700: #6D28D9; --purple-800: #5B21B6;
+      --purple-50: #F5F3FF; --purple-100: #EDE9FE; --purple-200: #DDD6FE; --purple-300: #C4B5FD;
+      --indigo-950: #1E1B4B; --white: #FFFFFF; --muted: #6B7280; --error: #EF4444; --success: #10B981;
     }
+    body { font-family: 'DM Sans', sans-serif; font-weight: 300; background: var(--white); min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      background: var(--white);
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-
-    /* ── LEFT PANEL ── */
-    .left-panel {
-      background: var(--indigo-950);
-      position: relative; overflow: hidden;
-      display: flex; flex-direction: column;
-      justify-content: space-between; padding: 3rem;
-    }
-
-    .left-panel::before {
-      content: ''; position: absolute;
-      top: -200px; left: -200px;
-      width: 600px; height: 600px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(124,58,237,0.3) 0%, transparent 70%);
-    }
-
-    .left-panel::after {
-      content: ''; position: absolute;
-      bottom: -150px; right: -150px;
-      width: 500px; height: 500px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, transparent 70%);
-    }
-
-    .left-logo {
-      position: relative; z-index: 1;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem; font-weight: 600;
-      color: var(--white); text-decoration: none;
-    }
-
+    /* LEFT */
+    .left-panel { background: var(--indigo-950); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 3rem; }
+    .left-panel::before { content: ''; position: absolute; top: -200px; left: -200px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.3) 0%, transparent 70%); }
+    .left-panel::after { content: ''; position: absolute; bottom: -150px; right: -150px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, transparent 70%); }
+    .left-logo { position: relative; z-index: 1; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: var(--white); text-decoration: none; }
     .left-logo span { color: var(--purple-300); }
-
     .left-content { position: relative; z-index: 1; }
-
-    .left-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 300;
-      color: var(--white); line-height: 1.3; margin-bottom: 1.5rem;
-    }
-
+    .left-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 300; color: var(--white); line-height: 1.3; margin-bottom: 1.5rem; }
     .left-quote em { font-style: italic; color: var(--purple-300); }
-
-    .left-desc {
-      font-size: 0.88rem; color: rgba(255,255,255,0.45);
-      line-height: 1.8; max-width: 340px;
-    }
-
-    /* Steps */
+    .left-desc { font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.8; max-width: 340px; }
     .steps { position: relative; z-index: 1; }
-
-    .steps-title {
-      font-size: 0.72rem; letter-spacing: 0.15em;
-      text-transform: uppercase; color: rgba(255,255,255,0.35);
-      margin-bottom: 1.2rem;
-    }
-
-    .step {
-      display: flex; align-items: center; gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .step-num {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: rgba(124,58,237,0.3);
-      border: 1px solid rgba(196,181,253,0.3);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem; font-weight: 500; color: var(--purple-300);
-      flex-shrink: 0;
-    }
-
-    .step-text {
-      font-size: 0.83rem; color: rgba(255,255,255,0.5); line-height: 1.4;
-    }
-
+    .steps-title { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1.2rem; }
+    .step { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+    .step-num { width: 32px; height: 32px; border-radius: 50%; background: rgba(124,58,237,0.3); border: 1px solid rgba(196,181,253,0.3); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 500; color: var(--purple-300); flex-shrink: 0; }
+    .step-text { font-size: 0.83rem; color: rgba(255,255,255,0.5); line-height: 1.4; }
     .step-text strong { color: rgba(255,255,255,0.8); font-weight: 400; display: block; }
 
-    /* ── RIGHT PANEL ── */
-    .right-panel {
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      padding: 2.5rem 3rem;
-      background: var(--white);
-      overflow-y: auto;
-    }
-
-    .form-container {
-      width: 100%; max-width: 440px;
-      animation: fade-up 0.6s ease forwards;
-    }
-
-    @keyframes fade-up {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
+    /* RIGHT */
+    .right-panel { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2.5rem 3rem; background: var(--white); overflow-y: auto; }
+    .form-container { width: 100%; max-width: 440px; animation: fade-up 0.6s ease forwards; }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .form-header { margin-bottom: 2rem; }
-
-    .form-eyebrow {
-      font-size: 0.72rem; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--purple-600);
-      font-weight: 500; margin-bottom: 0.8rem;
-      display: flex; align-items: center; gap: 0.5rem;
-    }
-
-    .form-eyebrow::before {
-      content: ''; width: 20px; height: 1px; background: var(--purple-600);
-    }
-
-    .form-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.2rem; font-weight: 300;
-      color: var(--indigo-950); line-height: 1.2; margin-bottom: 0.5rem;
-    }
-
+    .form-eyebrow { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--purple-600); font-weight: 500; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+    .form-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--purple-600); }
+    .form-title { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: var(--indigo-950); line-height: 1.2; margin-bottom: 0.5rem; }
     .form-subtitle { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
 
-    /* Progress bar */
-    .progress-bar {
-      height: 3px; background: var(--purple-100);
-      border-radius: 2px; margin-bottom: 2rem; overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%; width: 0%;
-      background: linear-gradient(90deg, var(--purple-600), var(--purple-300));
-      border-radius: 2px; transition: width 0.5s ease;
-    }
+    /* Progress */
+    .progress-bar { height: 3px; background: var(--purple-100); border-radius: 2px; margin-bottom: 2rem; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--purple-600), var(--purple-300)); border-radius: 2px; transition: width 0.5s ease; }
 
     /* Form */
-    .form-row-2 {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-    }
-
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .form-group { margin-bottom: 1rem; }
-
-    .form-label {
-      display: block; font-size: 0.75rem;
-      letter-spacing: 0.08em; color: var(--indigo-950);
-      font-weight: 500; margin-bottom: 0.4rem; text-transform: uppercase;
-    }
-
+    .form-label { display: block; font-size: 0.75rem; letter-spacing: 0.08em; color: var(--indigo-950); font-weight: 500; margin-bottom: 0.4rem; text-transform: uppercase; }
     .input-wrapper { position: relative; }
-
-    .form-input {
-      width: 100%;
-      padding: 0.8rem 1rem 0.8rem 2.8rem;
-      border: 1.5px solid var(--purple-200);
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.88rem; color: var(--indigo-950);
-      background: var(--white);
-      transition: all 0.3s ease; outline: none;
-    }
-
+    .form-input { width: 100%; padding: 0.8rem 1rem 0.8rem 2.8rem; border: 1.5px solid var(--purple-200); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--indigo-950); background: var(--white); transition: all 0.3s ease; outline: none; }
     .form-input::placeholder { color: #9CA3AF; }
-
-    .form-input:focus {
-      border-color: var(--purple-600);
-      box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
-    }
-
+    .form-input:focus { border-color: var(--purple-600); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
     .form-input.error { border-color: var(--error); }
-    .form-input.success { border-color: var(--success); }
-
-    .input-icon {
-      position: absolute; left: 0.9rem; top: 50%;
-      transform: translateY(-50%); color: var(--muted);
-      font-size: 0.85rem; pointer-events: none;
-    }
-
+    .input-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; pointer-events: none; }
     .input-wrapper:focus-within .input-icon { color: var(--purple-600); }
-
-    .toggle-password {
-      position: absolute; right: 0.9rem; top: 50%;
-      transform: translateY(-50%);
-      background: none; border: none; cursor: pointer;
-      color: var(--muted); font-size: 0.85rem;
-      transition: color 0.3s; padding: 0;
-    }
-
+    .toggle-password { position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--muted); font-size: 0.85rem; transition: color 0.3s; padding: 0; }
     .toggle-password:hover { color: var(--purple-600); }
-
-    .field-error {
-      font-size: 0.72rem; color: var(--error);
-      margin-top: 0.3rem; display: none;
-    }
-
+    .field-error { font-size: 0.72rem; color: var(--error); margin-top: 0.3rem; display: none; }
     .field-error.show { display: block; }
 
     /* Password strength */
     .password-strength { margin-top: 0.5rem; }
-
-    .strength-bar {
-      height: 3px; background: var(--purple-100);
-      border-radius: 2px; overflow: hidden; margin-bottom: 0.3rem;
-    }
-
-    .strength-fill {
-      height: 100%; width: 0%;
-      border-radius: 2px; transition: all 0.3s ease;
-    }
-
+    .strength-bar { height: 3px; background: var(--purple-100); border-radius: 2px; overflow: hidden; margin-bottom: 0.3rem; }
+    .strength-fill { height: 100%; width: 0%; border-radius: 2px; transition: all 0.3s ease; }
     .strength-text { font-size: 0.72rem; color: var(--muted); }
 
     /* Alert */
-    .alert {
-      padding: 0.8rem 1rem; border-radius: 8px;
-      font-size: 0.82rem; margin-bottom: 1rem;
-      display: none; align-items: center; gap: 0.6rem;
-    }
-
+    .alert { padding: 0.8rem 1rem; border-radius: 8px; font-size: 0.82rem; margin-bottom: 1rem; display: none; align-items: center; gap: 0.6rem; }
     .alert.show { display: flex; }
-
     .alert-error { background: #FEF2F2; border: 1px solid #FECACA; color: #DC2626; }
     .alert-success { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
 
     /* Terms */
-    .terms-label {
-      display: flex; align-items: flex-start; gap: 0.6rem;
-      font-size: 0.8rem; color: var(--muted);
-      cursor: pointer; margin-bottom: 1.2rem;
-    }
-
-    .terms-label input[type="checkbox"] {
-      width: 15px; height: 15px; margin-top: 2px;
-      accent-color: var(--purple-600); cursor: pointer; flex-shrink: 0;
-    }
-
+    .terms-label { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.8rem; color: var(--muted); cursor: pointer; margin-bottom: 1.2rem; }
+    .terms-label input[type="checkbox"] { width: 15px; height: 15px; margin-top: 2px; accent-color: var(--purple-600); cursor: pointer; flex-shrink: 0; }
     .terms-label a { color: var(--purple-600); text-decoration: none; }
     .terms-label a:hover { color: var(--purple-800); }
 
     /* Submit */
-    .btn-submit {
-      width: 100%; padding: 0.95rem;
-      background: var(--purple-600); color: var(--white);
-      border: none; border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.88rem; font-weight: 500; letter-spacing: 0.05em;
-      cursor: pointer; transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(124,58,237,0.3);
-      position: relative; overflow: hidden; margin-bottom: 1.2rem;
-    }
-
-    .btn-submit:hover {
-      background: var(--purple-800);
-      box-shadow: 0 6px 20px rgba(124,58,237,0.4);
-      transform: translateY(-1px);
-    }
-
+    .btn-submit { width: 100%; padding: 0.95rem; background: var(--purple-600); color: var(--white); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(124,58,237,0.3); position: relative; overflow: hidden; margin-bottom: 1.2rem; }
+    .btn-submit:hover { background: var(--purple-800); box-shadow: 0 6px 20px rgba(124,58,237,0.4); transform: translateY(-1px); }
     .btn-submit.loading { pointer-events: none; opacity: 0.8; }
     .btn-submit .btn-text { transition: opacity 0.3s; }
-    .btn-submit .btn-spinner {
-      display: none; width: 18px; height: 18px;
-      border: 2px solid rgba(255,255,255,0.3); border-top-color: white;
-      border-radius: 50%; animation: spin 0.8s linear infinite;
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
+    .btn-submit .btn-spinner { display: none; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
     .btn-submit.loading .btn-text { opacity: 0; }
     .btn-submit.loading .btn-spinner { display: block; }
-
     @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-    .form-footer {
-      text-align: center; font-size: 0.83rem; color: var(--muted);
-    }
-
-    .form-footer a {
-      color: var(--purple-600); text-decoration: none;
-      font-weight: 500; transition: color 0.3s;
-    }
-
+    .form-footer { text-align: center; font-size: 0.83rem; color: var(--muted); }
+    .form-footer a { color: var(--purple-600); text-decoration: none; font-weight: 500; transition: color 0.3s; }
     .form-footer a:hover { color: var(--purple-800); }
 
-    @media (max-width: 768px) {
-      body { grid-template-columns: 1fr; }
-      .left-panel { display: none; }
-      .right-panel { padding: 2rem 1.5rem; }
-      .form-row-2 { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 768px) { body { grid-template-columns: 1fr; } .left-panel { display: none; } .right-panel { padding: 2rem 1.5rem; } .form-row-2 { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 
-  <!-- LEFT -->
   <div class="left-panel">
     <a href="../index.html" class="left-logo">Waslaa<span>.</span></a>
-
     <div class="left-content">
-      <h2 class="left-quote">
-        Join <em>500,000+</em><br/>
-        Connected<br/>
-        Customers
-      </h2>
-      <p class="left-desc">
-        Create your Waslaa Telecom account and get instant access to premium mobile and internet plans.
-      </p>
+      <h2 class="left-quote">Join <em>500,000+</em><br/>Connected<br/>Customers</h2>
+      <p class="left-desc">Create your Waslaa Telecom account and get instant access to premium mobile and internet plans.</p>
     </div>
-
     <div class="steps">
       <div class="steps-title">How it works</div>
       <div class="step">
         <div class="step-num">1</div>
-        <div class="step-text">
-          <strong>Create your account</strong>
-          Fill in your details below
-        </div>
+        <div class="step-text"><strong>Create your account</strong>Fill in your details below</div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <div class="step-text">
-          <strong>Choose your plan</strong>
-          Mobile or internet — your choice
-        </div>
+        <div class="step-text"><strong>Choose your plan</strong>Mobile or internet — your choice</div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <div class="step-text">
-          <strong>Stay connected</strong>
-          Manage everything from your dashboard
-        </div>
+        <div class="step-text"><strong>Stay connected</strong>Manage everything from your dashboard</div>
       </div>
     </div>
   </div>
 
-  <!-- RIGHT -->
   <div class="right-panel">
     <div class="form-container">
       <div class="form-header">
@@ -368,24 +131,12 @@
         <p class="form-subtitle">Join Waslaa Telecom and experience premium connectivity.</p>
       </div>
 
-      <!-- Progress -->
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
-      <!-- Alert -->
-      <div class="alert alert-error" id="alertError">
-        <span>⚠️</span>
-        <span id="alertErrorMsg">Something went wrong. Please try again.</span>
-      </div>
-      <div class="alert alert-success" id="alertSuccess">
-        <span>✅</span>
-        <span>Account created! Redirecting to login...</span>
-      </div>
+      <div class="alert alert-error" id="alertError"><span>⚠️</span><span id="alertErrorMsg">Something went wrong.</span></div>
+      <div class="alert alert-success" id="alertSuccess"><span>✅</span><span>Account created! Redirecting to login...</span></div>
 
       <form id="registerForm" novalidate>
-
-        <!-- Name row -->
         <div class="form-row-2">
           <div class="form-group">
             <label class="form-label" for="firstName">First Name</label>
@@ -405,7 +156,6 @@
           </div>
         </div>
 
-        <!-- Email -->
         <div class="form-group">
           <label class="form-label" for="email">Email Address</label>
           <div class="input-wrapper">
@@ -415,7 +165,6 @@
           <div class="field-error" id="emailError">Please enter a valid email address.</div>
         </div>
 
-        <!-- Phone -->
         <div class="form-group">
           <label class="form-label" for="phone">Phone Number</label>
           <div class="input-wrapper">
@@ -425,7 +174,6 @@
           <div class="field-error" id="phoneError">Please enter a valid phone number.</div>
         </div>
 
-        <!-- Password -->
         <div class="form-group">
           <label class="form-label" for="password">Password</label>
           <div class="input-wrapper">
@@ -440,7 +188,6 @@
           <div class="field-error" id="passwordError">Password must be at least 8 characters.</div>
         </div>
 
-        <!-- Confirm Password -->
         <div class="form-group">
           <label class="form-label" for="passwordConfirm">Confirm Password</label>
           <div class="input-wrapper">
@@ -451,36 +198,36 @@
           <div class="field-error" id="passwordConfirmError">Passwords do not match.</div>
         </div>
 
-        <!-- Terms -->
         <label class="terms-label">
           <input type="checkbox" id="terms"/>
           I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
         </label>
 
-        <!-- Submit -->
         <button type="submit" class="btn-submit" id="submitBtn">
           <span class="btn-text">Create Account</span>
           <span class="btn-spinner"></span>
         </button>
 
-        <div class="form-footer">
-          Already have an account? <a href="login.html">Sign in</a>
-        </div>
+        <div class="form-footer">Already have an account? <a href="login.html">Sign in</a></div>
       </form>
     </div>
   </div>
 
   <script>
-    const API = 'http://localhost:8000/api';
+    const API = '/api';
 
-    // Progress bar based on filled fields
+    async function getCsrfToken() {
+      await fetch('/api/csrf/', { credentials: 'include' });
+      const match = document.cookie.match(/csrftoken=([^;]+)/);
+      return match ? match[1] : '';
+    }
+
+    // Progress bar
     const fields = ['firstName', 'lastName', 'email', 'phone', 'password', 'passwordConfirm'];
-
     function updateProgress() {
       const filled = fields.filter(f => document.getElementById(f).value.trim() !== '').length;
       document.getElementById('progressFill').style.width = `${(filled / fields.length) * 100}%`;
     }
-
     fields.forEach(f => document.getElementById(f).addEventListener('input', updateProgress));
 
     // Password strength
@@ -489,20 +236,17 @@
       const fill = document.getElementById('strengthFill');
       const text = document.getElementById('strengthText');
       let strength = 0;
-
       if (val.length >= 8) strength++;
       if (/[A-Z]/.test(val)) strength++;
       if (/[0-9]/.test(val)) strength++;
       if (/[^A-Za-z0-9]/.test(val)) strength++;
-
       const levels = [
-        { w: '0%',   color: '',                  label: 'Enter a password' },
-        { w: '25%',  color: '#EF4444',            label: 'Weak' },
-        { w: '50%',  color: '#F59E0B',            label: 'Fair' },
-        { w: '75%',  color: '#7C3AED',            label: 'Good' },
-        { w: '100%', color: '#10B981',            label: 'Strong ✓' },
+        { w: '0%',   color: '',          label: 'Enter a password' },
+        { w: '25%',  color: '#EF4444',   label: 'Weak' },
+        { w: '50%',  color: '#F59E0B',   label: 'Fair' },
+        { w: '75%',  color: '#7C3AED',   label: 'Good' },
+        { w: '100%', color: '#10B981',   label: 'Strong ✓' },
       ];
-
       const level = val.length === 0 ? 0 : strength;
       fill.style.width = levels[level].w;
       fill.style.background = levels[level].color;
@@ -522,10 +266,7 @@
     }
 
     function clearErrors() {
-      document.querySelectorAll('.form-input').forEach(i => {
-        i.classList.remove('error');
-        i.classList.remove('success');
-      });
+      document.querySelectorAll('.form-input').forEach(i => i.classList.remove('error'));
       document.querySelectorAll('.field-error').forEach(e => e.classList.remove('show'));
       document.getElementById('alertError').classList.remove('show');
       document.getElementById('alertSuccess').classList.remove('show');
@@ -533,55 +274,33 @@
 
     function validate() {
       let valid = true;
-
-      if (!document.getElementById('firstName').value.trim()) {
-        showError('firstName', 'firstNameError'); valid = false;
-      }
-      if (!document.getElementById('lastName').value.trim()) {
-        showError('lastName', 'lastNameError'); valid = false;
-      }
-
+      if (!document.getElementById('firstName').value.trim()) { showError('firstName', 'firstNameError'); valid = false; }
+      if (!document.getElementById('lastName').value.trim()) { showError('lastName', 'lastNameError'); valid = false; }
       const email = document.getElementById('email').value.trim();
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showError('email', 'emailError'); valid = false;
-      }
-
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('email', 'emailError'); valid = false; }
       const phone = document.getElementById('phone').value.trim();
-      if (!phone || phone.length < 8) {
-        showError('phone', 'phoneError'); valid = false;
-      }
-
+      if (!phone || phone.length < 8) { showError('phone', 'phoneError'); valid = false; }
       const password = document.getElementById('password').value;
-      if (!password || password.length < 8) {
-        showError('password', 'passwordError'); valid = false;
-      }
-
+      if (!password || password.length < 8) { showError('password', 'passwordError'); valid = false; }
       const confirm = document.getElementById('passwordConfirm').value;
-      if (confirm !== password) {
-        showError('passwordConfirm', 'passwordConfirmError'); valid = false;
-      }
-
-      if (!document.getElementById('terms').checked) {
-        alert('Please accept the Terms of Service to continue.');
-        valid = false;
-      }
-
+      if (confirm !== password) { showError('passwordConfirm', 'passwordConfirmError'); valid = false; }
+      if (!document.getElementById('terms').checked) { alert('Please accept the Terms of Service to continue.'); valid = false; }
       return valid;
     }
 
     document.getElementById('registerForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       clearErrors();
-
       if (!validate()) return;
 
       const btn = document.getElementById('submitBtn');
       btn.classList.add('loading');
 
       try {
+        const csrf = await getCsrfToken();
         const res = await fetch(`${API}/users/register/`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
           credentials: 'include',
           body: JSON.stringify({
             first_name: document.getElementById('firstName').value.trim(),
@@ -599,13 +318,12 @@
           document.getElementById('alertSuccess').classList.add('show');
           setTimeout(() => { window.location.href = 'login.html'; }, 1500);
         } else {
-          // Show first error from API
           const firstKey = Object.keys(data)[0];
           const msg = Array.isArray(data[firstKey]) ? data[firstKey][0] : data[firstKey];
           document.getElementById('alertErrorMsg').textContent = msg || 'Registration failed.';
           document.getElementById('alertError').classList.add('show');
         }
-      } catch (err) {
+      } catch {
         document.getElementById('alertErrorMsg').textContent = 'Connection error. Please try again.';
         document.getElementById('alertError').classList.add('show');
       } finally {

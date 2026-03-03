@@ -6,6 +6,15 @@ from drf_spectacular.views import (
     SpectacularRedocView,
 )
 
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+
+@ensure_csrf_cookie
+@require_GET
+def get_csrf_token(request):
+    return JsonResponse({'detail': 'CSRF cookie set'})
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -17,7 +26,7 @@ urlpatterns = [
     path('api/tickets/', include('waslaa_telecom.apps.tickets.urls', namespace='tickets')),
     path('api/analytics/', include('waslaa_telecom.apps.analytics.urls', namespace='analytics')),
     path('api/announcements/', include('waslaa_telecom.apps.announcements.urls', namespace='announcements')),
-
+    path('api/csrf/', get_csrf_token, name='csrf'),
     # Swagger
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
